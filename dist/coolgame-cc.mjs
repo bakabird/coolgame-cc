@@ -78,7 +78,7 @@ class KitBase extends Component {
         return this._status;
     }
     sign(game) {
-        this.game = game;
+        this._game = game;
     }
     ;
     Init(complete) {
@@ -99,6 +99,9 @@ class KitBase extends Component {
     Dispose() {
         console.log(this.kitName, "Dispose");
         this._status = KitStatus.Disposed;
+    }
+    sys(type) {
+        return this._game.sys(type);
     }
 }
 
@@ -136,7 +139,7 @@ class PlayBase extends Component {
         return this._status;
     }
     sign(game) {
-        this.game = game;
+        this._game = game;
     }
     ;
     Init(complete) {
@@ -157,6 +160,12 @@ class PlayBase extends Component {
     Dispose() {
         console.log(this.playName, "Dispose");
         this._status = PlayStatus.Disposed;
+    }
+    sys(type) {
+        return this._game.sys(type);
+    }
+    kit(type) {
+        return this._game.kit(type);
     }
 }
 

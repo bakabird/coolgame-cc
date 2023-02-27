@@ -29,7 +29,6 @@ export enum PlayStatus {
 
 
 export interface IPlay extends IDisposable {
-    game: SKPGame;
     get status(): PlayStatus;
     Init(complete: Action): void;
     /// <summary>

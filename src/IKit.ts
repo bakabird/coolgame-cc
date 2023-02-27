@@ -1,7 +1,6 @@
 /// <summary>
 /// 套件状态
 import { Action, Action1, types_constructor, IDisposable } from "./Define";
-import { SKPGame } from "./SKPGame";
 
 /// </summary>
 export enum KitStatus {
@@ -29,7 +28,6 @@ export enum KitStatus {
 
 
 export interface IKit extends IDisposable {
-    game: SKPGame;
     get status(): KitStatus;
     Init(complete: Action): void;
     /// <summary>
