@@ -1,4 +1,3 @@
-import "./_coolgame_private_";
 export { AsyncTask } from "./AsyncTask";
 export { IKit } from "./IKit"
 export { IPlay } from "./IPlay"

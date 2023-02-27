@@ -1,8 +1,9 @@
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { _decorator, Component, Node, director } from 'cc';
-import { AsyncTask}  from './AsyncTask';
-import { KitBase} from './KitBase';
-import { PlayBase} from './PlayBase';
-import {SysBase} from './SysBase';
+import { AsyncTask } from './AsyncTask';
+import { KitBase } from './KitBase';
+import { PlayBase } from './PlayBase';
+import { SysBase } from './SysBase';
 
 enum GameStatu {
     Idle,
@@ -18,7 +19,7 @@ export abstract class SKPGame extends Component {
     public static get me(): SKPGame {
         return SKPGame._me;
     };
-    
+
     private _statu: GameStatu = GameStatu.Idle;
     public get statu(): GameStatu {
         return this._statu;
@@ -110,11 +111,11 @@ export abstract class SKPGame extends Component {
      * Any Sys/Kit/Play can be used after that.
      */
     protected abstract OnEnter(): void;
-    
+
     public start() {
         console.log(this.gamename, "start");
         const asyncTask = new AsyncTask();
-        asyncTask.Then((next)=> {
+        asyncTask.Then((next) => {
             this._statu = GameStatu.InitingSys;
             console.time("gameInit")
             console.time("sysInit")
@@ -138,7 +139,7 @@ export abstract class SKPGame extends Component {
         });
         this._playList.forEach(play => asyncTask.Then(play.Init.bind(play)));
         this._playList.forEach(play => asyncTask.Then(play.LateInit.bind(play)));
-        asyncTask.Start(()=> {
+        asyncTask.Start(() => {
             this._statu = GameStatu.Running;
             console.timeEnd("playInit");
             console.timeEnd("gameInit");

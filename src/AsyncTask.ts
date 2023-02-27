@@ -1,4 +1,6 @@
-enum  TaskStatu {
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
+
+enum TaskStatu {
     Idle,
     Pending,
     Stop,
@@ -8,8 +10,7 @@ enum  TaskStatu {
 /// <summary>
 /// 一系列的 Action 依次执行
 /// </summary>
-export class AsyncTask 
-{
+export class AsyncTask {
     public statu: TaskStatu = TaskStatu.Idle;
 
     private m_quene: Array<Action1<Action>>;
@@ -18,11 +19,11 @@ export class AsyncTask
     constructor() {
         this.m_quene = new Array<Action1<Action>>();
     }
-    
+
     public Then(task: Action1<Action>): void {
         this.m_quene.push(task);
     }
-    
+
     public Start(complete: Action): void {
         this.m_onEnd = complete;
         if (this.statu == TaskStatu.Idle) {

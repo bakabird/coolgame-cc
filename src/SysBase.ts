@@ -1,8 +1,9 @@
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { Component } from "cc";
 import { ISys, SysStatus } from "./ISys";
 
 export abstract class SysBase extends Component implements ISys {
-    private _status: SysStatus = SysStatus.Nil; 
+    private _status: SysStatus = SysStatus.Nil;
     get status(): SysStatus {
         return this._status;
     }
@@ -17,7 +18,7 @@ export abstract class SysBase extends Component implements ISys {
     }
     LateInit(complete: Action): void {
         console.log(this.sysName, "LateInit");
-        this.OnLateInit(()=>{
+        this.OnLateInit(() => {
             this._status = SysStatus.Running;
             complete()
         });

@@ -1,6 +1,6 @@
 /// <summary>
 /// 套件状态
-
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { SKPGame } from "./SKPGame";
 
 /// </summary>

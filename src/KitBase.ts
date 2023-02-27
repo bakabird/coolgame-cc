@@ -1,10 +1,11 @@
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { Component } from "cc";
 import { SKPGame } from "./SKPGame";
 import { IKit, KitStatus } from "./IKit";
 
 export abstract class KitBase extends Component implements IKit {
     public game: SKPGame;
-    private _status: KitStatus = KitStatus.Nil; 
+    private _status: KitStatus = KitStatus.Nil;
     get status(): KitStatus {
         return this._status;
     }
@@ -22,7 +23,7 @@ export abstract class KitBase extends Component implements IKit {
     }
     LateInit(complete: Action): void {
         console.log(this.kitName, "LateInit");
-        this.OnLateInit(()=>{
+        this.OnLateInit(() => {
             this._status = KitStatus.Running;
             complete()
         });

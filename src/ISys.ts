@@ -1,3 +1,4 @@
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 /// <summary>
 /// 系统状态
 /// </summary>

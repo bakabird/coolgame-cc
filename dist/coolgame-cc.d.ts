@@ -3,7 +3,6 @@
 //   ../cc
 
 declare module 'coolgame-cc' {
-    import "./_coolgame_private_";
     export { AsyncTask } from "coolgame-cc/AsyncTask";
     export { IKit } from "coolgame-cc/IKit";
     export { IPlay } from "coolgame-cc/IPlay";
@@ -15,6 +14,7 @@ declare module 'coolgame-cc' {
 }
 
 declare module 'coolgame-cc/AsyncTask' {
+    import { Action, Action1 } from "coolgame-cc/Define";
     enum TaskStatu {
         Idle = 0,
         Pending = 1,
@@ -32,6 +32,7 @@ declare module 'coolgame-cc/AsyncTask' {
 }
 
 declare module 'coolgame-cc/IKit' {
+    import { Action, IDisposable } from "coolgame-cc/Define";
     import { SKPGame } from "coolgame-cc/SKPGame";
     export enum KitStatus {
         Nil = 0,
@@ -49,6 +50,7 @@ declare module 'coolgame-cc/IKit' {
 }
 
 declare module 'coolgame-cc/IPlay' {
+    import { Action, IDisposable } from "coolgame-cc/Define";
     import { SKPGame } from "coolgame-cc/SKPGame";
     export enum PlayStatus {
         Nil = 0,
@@ -66,6 +68,7 @@ declare module 'coolgame-cc/IPlay' {
 }
 
 declare module 'coolgame-cc/ISys' {
+    import { Action, IDisposable } from "coolgame-cc/Define";
     export enum SysStatus {
         Nil = 0,
         Initing = 1,
@@ -81,6 +84,7 @@ declare module 'coolgame-cc/ISys' {
 }
 
 declare module 'coolgame-cc/KitBase' {
+    import { Action } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { SKPGame } from "coolgame-cc/SKPGame";
     import { IKit, KitStatus } from "coolgame-cc/IKit";
@@ -99,6 +103,7 @@ declare module 'coolgame-cc/KitBase' {
 }
 
 declare module 'coolgame-cc/PlayBase' {
+    import { Action } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { SKPGame } from "coolgame-cc/SKPGame";
     import { IPlay, PlayStatus } from "coolgame-cc/IPlay";
@@ -117,6 +122,7 @@ declare module 'coolgame-cc/PlayBase' {
 }
 
 declare module 'coolgame-cc/SysBase' {
+    import { Action } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { ISys, SysStatus } from "coolgame-cc/ISys";
     export abstract class SysBase extends Component implements ISys {
@@ -132,6 +138,7 @@ declare module 'coolgame-cc/SysBase' {
 }
 
 declare module 'coolgame-cc/SKPGame' {
+    import { types_constructor } from "coolgame-cc/Define";
     import { Component } from 'cc';
     import { KitBase } from 'coolgame-cc/KitBase';
     import { PlayBase } from 'coolgame-cc/PlayBase';
@@ -173,5 +180,15 @@ declare module 'coolgame-cc/SKPGame' {
             update(deltaTime: number): void;
     }
     export {};
+}
+
+declare module 'coolgame-cc/Define' {
+    export type Action = () => void;
+    export type Action1<A> = (a: A) => void;
+    export type Func<Ret> = () => Ret;
+    export type types_constructor<T = unknown> = new (...args: any[]) => T;
+    export interface IDisposable {
+        Dispose(): void;
+    }
 }
 

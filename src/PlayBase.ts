@@ -1,10 +1,11 @@
+import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { Component } from "cc";
 import { SKPGame } from "./SKPGame";
 import { IPlay, PlayStatus } from "./IPlay";
 
 export abstract class PlayBase extends Component implements IPlay {
     public game: SKPGame;
-    private _status: PlayStatus = PlayStatus.Nil; 
+    private _status: PlayStatus = PlayStatus.Nil;
     get status(): PlayStatus {
         return this._status;
     }
@@ -22,7 +23,7 @@ export abstract class PlayBase extends Component implements IPlay {
     }
     LateInit(complete: Action): void {
         console.log(this.playName, "LateInit");
-        this.OnLateInit(()=>{
+        this.OnLateInit(() => {
             this._status = PlayStatus.Running;
             complete()
         });
