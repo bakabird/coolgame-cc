@@ -16,7 +16,21 @@ class AsyncTask {
         this.m_quene = new Array();
     }
     Then(task) {
-        this.m_quene.push(task);
+        if (task instanceof Array) {
+            let taskNum = task.length + 1;
+            this.m_quene.push((complete) => {
+                let taskDone = () => {
+                    taskNum--;
+                    if (taskNum < 1)
+                        complete();
+                };
+                task.forEach(t => { t(taskDone); });
+                taskDone();
+            });
+        }
+        else {
+            this.m_quene.push(task);
+        }
     }
     Start(complete) {
         this.m_onEnd = complete;

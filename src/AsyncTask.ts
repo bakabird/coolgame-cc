@@ -20,8 +20,20 @@ export class AsyncTask {
         this.m_quene = new Array<Action1<Action>>();
     }
 
-    public Then(task: Action1<Action>): void {
-        this.m_quene.push(task);
+    public Then(task: Action1<Action> | Action1<Action>[]): void {
+        if (task instanceof Array) {
+            let taskNum = task.length + 1;
+            this.m_quene.push((complete) => {
+                let taskDone = () => {
+                    taskNum--;
+                    if (taskNum < 1) complete();
+                }
+                task.forEach(t => { t(taskDone) })
+                taskDone();
+            })
+        } else {
+            this.m_quene.push(task);
+        }
     }
 
     public Start(complete: Action): void {

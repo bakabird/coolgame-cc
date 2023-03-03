@@ -24,7 +24,7 @@ declare module 'coolgame-cc/AsyncTask' {
     export class AsyncTask {
         statu: TaskStatu;
         constructor();
-        Then(task: Action1<Action>): void;
+        Then(task: Action1<Action> | Action1<Action>[]): void;
         Start(complete: Action): void;
         Stop(): void;
     }
