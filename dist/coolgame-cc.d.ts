@@ -138,7 +138,7 @@ declare module 'coolgame-cc/SysBase' {
 }
 
 declare module 'coolgame-cc/SKPGame' {
-    import { types_constructor } from "coolgame-cc/Define";
+    import { Action, types_constructor } from "coolgame-cc/Define";
     import { Component } from 'cc';
     import { KitBase } from 'coolgame-cc/KitBase';
     import { PlayBase } from 'coolgame-cc/PlayBase';
@@ -159,7 +159,7 @@ declare module 'coolgame-cc/SKPGame' {
             sys<T extends SysBase>(type: types_constructor<T>): T | null;
             kit<T extends KitBase>(type: types_constructor<T>): T | null;
             play<T extends PlayBase>(type: types_constructor<T>): T | null;
-            addPlay<T extends PlayBase>(type: types_constructor<T>): T;
+            addPlay<T extends PlayBase>(type: types_constructor<T>, onInited: Action, onLateInited: Action): T;
             disposePlay<T extends PlayBase>(type: types_constructor<T>): void;
             /**
                 * Add Sys Here

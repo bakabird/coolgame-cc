@@ -314,8 +314,15 @@ class SKPGame extends Component {
         this._playList.push(play);
         return play;
     }
-    addPlay(type) {
-        return this._addPlay(type);
+    addPlay(type, onInited, onLateInited) {
+        const play = this._addPlay(type);
+        play.Init(() => {
+            onInited === null || onInited === void 0 ? void 0 : onInited();
+            play.LateInit(() => {
+                onLateInited === null || onLateInited === void 0 ? void 0 : onLateInited();
+            });
+        });
+        return play;
     }
     disposePlay(type) {
         const play = this.play(type);

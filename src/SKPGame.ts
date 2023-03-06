@@ -94,8 +94,15 @@ export abstract class SKPGame extends Component {
         return play;
     }
 
-    public addPlay<T extends PlayBase>(type: types_constructor<T>): T {
-        return this._addPlay(type);
+    public addPlay<T extends PlayBase>(type: types_constructor<T>, onInited: Action, onLateInited: Action): T {
+        const play = this._addPlay(type);
+        play.Init(() => {
+            onInited?.();
+            play.LateInit(() => {
+                onLateInited?.();
+            })
+        })
+        return play;
     }
 
     public disposePlay<T extends PlayBase>(type: types_constructor<T>) {
