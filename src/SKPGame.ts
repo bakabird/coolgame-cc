@@ -94,6 +94,10 @@ export abstract class SKPGame extends Component {
         return play;
     }
 
+    public addPlay<T extends PlayBase>(type: types_constructor<T>): T {
+        return this._addPlay(type);
+    }
+
     /**
      * Add Sys Here
      */

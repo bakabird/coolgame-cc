@@ -314,6 +314,9 @@ class SKPGame extends Component {
         this._playList.push(play);
         return play;
     }
+    addPlay(type) {
+        return this._addPlay(type);
+    }
     start() {
         console.log(this.gamename, "start");
         const asyncTask = new AsyncTask();
