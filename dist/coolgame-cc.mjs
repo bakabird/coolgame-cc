@@ -317,6 +317,15 @@ class SKPGame extends Component {
     addPlay(type) {
         return this._addPlay(type);
     }
+    disposePlay(type) {
+        const play = this.play(type);
+        if (play) {
+            const idx = this._playList.indexOf(play);
+            this._playList.splice(idx, 1);
+            play.Dispose();
+            play.node.destroy();
+        }
+    }
     start() {
         console.log(this.gamename, "start");
         const asyncTask = new AsyncTask();

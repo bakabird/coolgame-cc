@@ -98,6 +98,16 @@ export abstract class SKPGame extends Component {
         return this._addPlay(type);
     }
 
+    public disposePlay<T extends PlayBase>(type: types_constructor<T>) {
+        const play = this.play(type);
+        if (play) {
+            const idx = this._playList.indexOf(play);
+            this._playList.splice(idx, 1);
+            play.Dispose();
+            play.node.destroy();
+        }
+    }
+
     /**
      * Add Sys Here
      */

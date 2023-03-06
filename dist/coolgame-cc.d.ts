@@ -160,6 +160,7 @@ declare module 'coolgame-cc/SKPGame' {
             kit<T extends KitBase>(type: types_constructor<T>): T | null;
             play<T extends PlayBase>(type: types_constructor<T>): T | null;
             addPlay<T extends PlayBase>(type: types_constructor<T>): T;
+            disposePlay<T extends PlayBase>(type: types_constructor<T>): void;
             /**
                 * Add Sys Here
                 */
