@@ -1,8 +1,7 @@
+import { _CoolgameCCInteral } from "./Define";
+import { SKPGame } from "./SKPGame";
 /// <summary>
 /// 系统状态
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
-import { SKPGame } from "./SKPGame";
-
 /// </summary>
 export enum PlayStatus {
     /// <summary>
@@ -28,11 +27,11 @@ export enum PlayStatus {
 }
 
 
-export interface IPlay extends IDisposable {
+export interface IPlay extends _CoolgameCCInteral.IDisposable {
     get status(): PlayStatus;
-    Init(complete: Action): void;
+    Init(complete: () => void): void;
     /// <summary>
     /// call after all play inited
     /// </summary>
-    LateInit(complete: Action): void;
+    LateInit(complete: () => void): void;
 }

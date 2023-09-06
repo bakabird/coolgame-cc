@@ -1,9 +1,9 @@
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { _decorator, Component, Node, director } from 'cc';
 import { AsyncTask } from './AsyncTask';
 import { KitBase } from './KitBase';
 import { PlayBase } from './PlayBase';
 import { SysBase } from './SysBase';
+import { _CoolgameCCInteral } from './Define';
 
 enum GameStatu {
     Idle,
@@ -13,6 +13,9 @@ enum GameStatu {
     InitingPlay,
     Running,
 }
+
+type Action = () => void;
+type types_constructor<T> = _CoolgameCCInteral.types_constructor<T>;
 
 export abstract class SKPGame extends Component {
     private static _me: SKPGame;

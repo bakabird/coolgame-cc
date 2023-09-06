@@ -1,6 +1,8 @@
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
 /// <summary>
 /// 系统状态
+
+import { _CoolgameCCInteral } from "./Define";
+
 /// </summary>
 export enum SysStatus {
     /// <summary>
@@ -26,11 +28,11 @@ export enum SysStatus {
 }
 
 
-export interface ISys extends IDisposable {
+export interface ISys extends _CoolgameCCInteral.IDisposable {
     get status(): SysStatus;
-    Init(complete: Action): void;
+    Init(complete: () => void): void;
     /// <summary>
     /// 在所有的系统都 Init 后调用
     /// </summary>
-    LateInit(complete: Action): void;
+    LateInit(complete: () => void): void;
 }

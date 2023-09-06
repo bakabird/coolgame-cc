@@ -14,25 +14,25 @@ declare module 'coolgame-cc' {
 }
 
 declare module 'coolgame-cc/AsyncTask' {
-    import { Action, Action1 } from "coolgame-cc/Define";
     enum TaskStatu {
         Idle = 0,
         Pending = 1,
         Stop = 2,
         Fulfilled = 3
     }
+    type Task = (call: () => void) => void;
     export class AsyncTask {
         statu: TaskStatu;
         constructor();
-        Then(task: Action1<Action> | Action1<Action>[]): void;
-        Start(complete: Action): void;
+        Then(task: Task | Task[]): void;
+        Start(complete: () => void): void;
         Stop(): void;
     }
     export {};
 }
 
 declare module 'coolgame-cc/IKit' {
-    import { Action, IDisposable } from "coolgame-cc/Define";
+    import { _CoolgameCCInteral } from "coolgame-cc/Define";
     export enum KitStatus {
         Nil = 0,
         Initing = 1,
@@ -40,15 +40,15 @@ declare module 'coolgame-cc/IKit' {
         Running = 3,
         Disposed = 4
     }
-    export interface IKit extends IDisposable {
+    export interface IKit extends _CoolgameCCInteral.IDisposable {
         get status(): KitStatus;
-        Init(complete: Action): void;
-        LateInit(complete: Action): void;
+        Init(complete: () => void): void;
+        LateInit(complete: () => void): void;
     }
 }
 
 declare module 'coolgame-cc/IPlay' {
-    import { Action, IDisposable } from "coolgame-cc/Define";
+    import { _CoolgameCCInteral } from "coolgame-cc/Define";
     export enum PlayStatus {
         Nil = 0,
         Initing = 1,
@@ -56,15 +56,15 @@ declare module 'coolgame-cc/IPlay' {
         Running = 3,
         Disposed = 4
     }
-    export interface IPlay extends IDisposable {
+    export interface IPlay extends _CoolgameCCInteral.IDisposable {
         get status(): PlayStatus;
-        Init(complete: Action): void;
-        LateInit(complete: Action): void;
+        Init(complete: () => void): void;
+        LateInit(complete: () => void): void;
     }
 }
 
 declare module 'coolgame-cc/ISys' {
-    import { Action, IDisposable } from "coolgame-cc/Define";
+    import { _CoolgameCCInteral } from "coolgame-cc/Define";
     export enum SysStatus {
         Nil = 0,
         Initing = 1,
@@ -72,59 +72,59 @@ declare module 'coolgame-cc/ISys' {
         Running = 3,
         Disposed = 4
     }
-    export interface ISys extends IDisposable {
+    export interface ISys extends _CoolgameCCInteral.IDisposable {
         get status(): SysStatus;
-        Init(complete: Action): void;
-        LateInit(complete: Action): void;
+        Init(complete: () => void): void;
+        LateInit(complete: () => void): void;
     }
 }
 
 declare module 'coolgame-cc/KitBase' {
-    import { Action, types_constructor } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { SKPGame } from "coolgame-cc/SKPGame";
     import { IKit, KitStatus } from "coolgame-cc/IKit";
     import { SysBase } from "coolgame-cc/SysBase";
+    import { _CoolgameCCInteral } from "coolgame-cc/Define";
     export abstract class KitBase extends Component implements IKit {
         get status(): KitStatus;
         abstract kitName: string;
         sign(game: SKPGame): void;
-        Init(complete: Action): void;
-        LateInit(complete: Action): void;
+        Init(complete: () => void): void;
+        LateInit(complete: () => void): void;
         Dispose(): void;
-        protected sys<T extends SysBase>(type: types_constructor<T>): T;
-        protected abstract OnInit(complete: Action): void;
-        protected abstract OnLateInit(complete: Action): void;
+        protected sys<T extends SysBase>(type: _CoolgameCCInteral.types_constructor<T>): T;
+        protected abstract OnInit(complete: () => void): void;
+        protected abstract OnLateInit(complete: () => void): void;
         protected abstract OnDispose(): void;
     }
 }
 
 declare module 'coolgame-cc/PlayBase' {
-    import { Action, types_constructor } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { SKPGame } from "coolgame-cc/SKPGame";
     import { IPlay, PlayStatus } from "coolgame-cc/IPlay";
     import { SysBase } from "coolgame-cc/SysBase";
     import { KitBase } from "coolgame-cc/KitBase";
+    import { _CoolgameCCInteral } from "coolgame-cc/Define";
     export abstract class PlayBase extends Component implements IPlay {
         get status(): PlayStatus;
         abstract playName: string;
         sign(game: SKPGame): void;
-        Init(complete: Action): void;
-        LateInit(complete: Action): void;
+        Init(complete: () => void): void;
+        LateInit(complete: () => void): void;
         Dispose(): void;
-        protected sys<T extends SysBase>(type: types_constructor<T>): T | null;
-        protected kit<T extends KitBase>(type: types_constructor<T>): T | null;
-        protected abstract OnInit(complete: Action): void;
-        protected abstract OnLateInit(complete: Action): void;
+        protected sys<T extends SysBase>(type: _CoolgameCCInteral.types_constructor<T>): T | null;
+        protected kit<T extends KitBase>(type: _CoolgameCCInteral.types_constructor<T>): T | null;
+        protected abstract OnInit(complete: () => void): void;
+        protected abstract OnLateInit(complete: () => void): void;
         protected abstract OnDispose(): void;
     }
 }
 
 declare module 'coolgame-cc/SysBase' {
-    import { Action } from "coolgame-cc/Define";
     import { Component } from "cc";
     import { ISys, SysStatus } from "coolgame-cc/ISys";
+    type Action = () => void;
     export abstract class SysBase extends Component implements ISys {
         get status(): SysStatus;
         abstract sysName: string;
@@ -135,14 +135,15 @@ declare module 'coolgame-cc/SysBase' {
         protected abstract OnLateInit(complete: Action): void;
         protected abstract OnDispose(): void;
     }
+    export {};
 }
 
 declare module 'coolgame-cc/SKPGame' {
-    import { Action, types_constructor } from "coolgame-cc/Define";
     import { Component } from 'cc';
     import { KitBase } from 'coolgame-cc/KitBase';
     import { PlayBase } from 'coolgame-cc/PlayBase';
     import { SysBase } from 'coolgame-cc/SysBase';
+    import { _CoolgameCCInteral } from 'coolgame-cc/Define';
     enum GameStatu {
             Idle = 0,
             Loaded = 1,
@@ -151,6 +152,8 @@ declare module 'coolgame-cc/SKPGame' {
             InitingPlay = 4,
             Running = 5
     }
+    type Action = () => void;
+    type types_constructor<T> = _CoolgameCCInteral.types_constructor<T>;
     export abstract class SKPGame extends Component {
             static get me(): SKPGame;
             get statu(): GameStatu;
@@ -185,21 +188,11 @@ declare module 'coolgame-cc/SKPGame' {
 }
 
 declare module 'coolgame-cc/Define' {
-    export type Action = () => void;
-    export type Action1<A> = (a: A) => void;
-    export type Action2<A, B> = (a: A, b: B) => void;
-    export type Action3<A, B, C> = (a: A, b: B, c: C) => void;
-    export type Action4<A, B, C, D> = (a: A, b: B, c: C, d: D) => void;
-    export type Action5<A, B, C, D, E> = (a: A, b: B, c: C, d: D, e: E) => void;
-    export type Func<Ret> = () => Ret;
-    export type Func1<Ret, A> = (a: A) => Ret;
-    export type Func2<Ret, A, B> = (a: A, b: B) => Ret;
-    export type Func3<Ret, A, B, C> = (a: A, b: B, c: C) => Ret;
-    export type Func4<Ret, A, B, C, D> = (a: A, b: B, c: C, d: D) => Ret;
-    export type Func5<Ret, A, B, C, D, E> = (a: A, b: B, c: C, d: D, e: E) => Ret;
-    export type types_constructor<T = unknown> = new (...args: any[]) => T;
-    export interface IDisposable {
-        Dispose(): void;
+    export namespace _CoolgameCCInteral {
+        type types_constructor<T = unknown> = new (...args: any[]) => T;
+        interface IDisposable {
+            Dispose(): void;
+        }
     }
 }
 

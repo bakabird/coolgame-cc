@@ -58,6 +58,8 @@ class AsyncTask {
     }
 }
 
+/// <summary>
+/// 套件状态
 /// </summary>
 var KitStatus;
 (function (KitStatus) {
@@ -119,6 +121,8 @@ class KitBase extends Component {
     }
 }
 
+/// <summary>
+/// 系统状态
 /// </summary>
 var PlayStatus;
 (function (PlayStatus) {

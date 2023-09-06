@@ -1,9 +1,9 @@
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { Component } from "cc";
 import { SKPGame } from "./SKPGame";
 import { IPlay, PlayStatus } from "./IPlay";
 import { SysBase } from "./SysBase";
 import { KitBase } from "./KitBase";
+import { _CoolgameCCInteral } from "./Define";
 
 export abstract class PlayBase extends Component implements IPlay {
     private _game: SKPGame;
@@ -15,7 +15,7 @@ export abstract class PlayBase extends Component implements IPlay {
     sign(game: SKPGame) {
         this._game = game;
     };
-    Init(complete: Action): void {
+    Init(complete: () => void): void {
         this._status = PlayStatus.Initing
         console.log(this.playName, "Init");
         this.OnInit(() => {
@@ -23,7 +23,7 @@ export abstract class PlayBase extends Component implements IPlay {
             complete();
         })
     }
-    LateInit(complete: Action): void {
+    LateInit(complete: () => void): void {
         console.log(this.playName, "LateInit");
         this.OnLateInit(() => {
             this._status = PlayStatus.Running;
@@ -34,13 +34,13 @@ export abstract class PlayBase extends Component implements IPlay {
         console.log(this.playName, "Dispose");
         this._status = PlayStatus.Disposed;
     }
-    protected sys<T extends SysBase>(type: types_constructor<T>): T | null {
+    protected sys<T extends SysBase>(type: _CoolgameCCInteral.types_constructor<T>): T | null {
         return this._game.sys(type);
     }
-    protected kit<T extends KitBase>(type: types_constructor<T>): T | null {
+    protected kit<T extends KitBase>(type: _CoolgameCCInteral.types_constructor<T>): T | null {
         return this._game.kit(type);
     }
-    protected abstract OnInit(complete: Action): void;
-    protected abstract OnLateInit(complete: Action): void;
+    protected abstract OnInit(complete: () => void): void;
+    protected abstract OnLateInit(complete: () => void): void;
     protected abstract OnDispose(): void;
 }

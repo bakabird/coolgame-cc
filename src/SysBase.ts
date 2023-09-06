@@ -1,6 +1,7 @@
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
 import { Component } from "cc";
 import { ISys, SysStatus } from "./ISys";
+
+type Action = () => void;
 
 export abstract class SysBase extends Component implements ISys {
     private _status: SysStatus = SysStatus.Nil;

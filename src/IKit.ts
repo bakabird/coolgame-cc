@@ -1,6 +1,7 @@
 /// <summary>
 /// 套件状态
-import { Action, Action1, types_constructor, IDisposable } from "./Define";
+
+import { _CoolgameCCInteral } from "./Define";
 
 /// </summary>
 export enum KitStatus {
@@ -27,11 +28,11 @@ export enum KitStatus {
 }
 
 
-export interface IKit extends IDisposable {
+export interface IKit extends _CoolgameCCInteral.IDisposable {
     get status(): KitStatus;
-    Init(complete: Action): void;
+    Init(complete: () => void): void;
     /// <summary>
     /// call after all kit inited
     /// </summary>
-    LateInit(complete: Action): void;
+    LateInit(complete: () => void): void;
 }
