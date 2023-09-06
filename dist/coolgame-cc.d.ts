@@ -3,7 +3,6 @@
 //   ../cc
 
 declare module 'coolgame-cc' {
-    export { AsyncTask } from "coolgame-cc/AsyncTask";
     export { IKit } from "coolgame-cc/IKit";
     export { IPlay } from "coolgame-cc/IPlay";
     export { ISys } from "coolgame-cc/ISys";
@@ -11,24 +10,6 @@ declare module 'coolgame-cc' {
     export { PlayBase } from "coolgame-cc/PlayBase";
     export { SysBase } from "coolgame-cc/SysBase";
     export { SKPGame } from "coolgame-cc/SKPGame";
-}
-
-declare module 'coolgame-cc/AsyncTask' {
-    enum TaskStatu {
-        Idle = 0,
-        Pending = 1,
-        Stop = 2,
-        Fulfilled = 3
-    }
-    type Task = (call: () => void) => void;
-    export class AsyncTask {
-        statu: TaskStatu;
-        constructor();
-        Then(task: Task | Task[]): void;
-        Start(complete: () => void): void;
-        Stop(): void;
-    }
-    export {};
 }
 
 declare module 'coolgame-cc/IKit' {

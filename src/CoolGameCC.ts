@@ -1,4 +1,3 @@
-export { AsyncTask } from "./AsyncTask";
 export { IKit } from "./IKit"
 export { IPlay } from "./IPlay"
 export { ISys } from "./ISys"

@@ -1,63 +1,5 @@
 import { Component, Node, director } from 'cc';
 
-var TaskStatu;
-(function (TaskStatu) {
-    TaskStatu[TaskStatu["Idle"] = 0] = "Idle";
-    TaskStatu[TaskStatu["Pending"] = 1] = "Pending";
-    TaskStatu[TaskStatu["Stop"] = 2] = "Stop";
-    TaskStatu[TaskStatu["Fulfilled"] = 3] = "Fulfilled";
-})(TaskStatu || (TaskStatu = {}));
-/// <summary>
-/// 一系列的 Action 依次执行
-/// </summary>
-class AsyncTask {
-    constructor() {
-        this.statu = TaskStatu.Idle;
-        this.m_quene = new Array();
-    }
-    Then(task) {
-        if (task instanceof Array) {
-            let taskNum = task.length + 1;
-            this.m_quene.push((complete) => {
-                let taskDone = () => {
-                    taskNum--;
-                    if (taskNum < 1)
-                        complete();
-                };
-                task.forEach(t => { t(taskDone); });
-                taskDone();
-            });
-        }
-        else {
-            this.m_quene.push(task);
-        }
-    }
-    Start(complete) {
-        this.m_onEnd = complete;
-        if (this.statu == TaskStatu.Idle) {
-            this.statu = TaskStatu.Pending;
-            this._Next();
-        }
-    }
-    Stop() {
-        if (this.statu == TaskStatu.Pending) {
-            this.statu = TaskStatu.Stop;
-        }
-    }
-    _Next() {
-        if (this.statu == TaskStatu.Pending) {
-            if (this.m_quene.length > 0) {
-                this.m_quene.shift()(this._Next.bind(this));
-            }
-            else {
-                this.m_onEnd();
-                this.m_onEnd = null;
-                this.statu = TaskStatu.Fulfilled;
-            }
-        }
-    }
-}
-
 /// <summary>
 /// 套件状态
 /// </summary>
@@ -243,6 +185,64 @@ class SysBase extends Component {
     }
 }
 
+var TaskStatu;
+(function (TaskStatu) {
+    TaskStatu[TaskStatu["Idle"] = 0] = "Idle";
+    TaskStatu[TaskStatu["Pending"] = 1] = "Pending";
+    TaskStatu[TaskStatu["Stop"] = 2] = "Stop";
+    TaskStatu[TaskStatu["Fulfilled"] = 3] = "Fulfilled";
+})(TaskStatu || (TaskStatu = {}));
+/// <summary>
+/// 一系列的 Action 依次执行
+/// </summary>
+class AsyncTask {
+    constructor() {
+        this.statu = TaskStatu.Idle;
+        this.m_quene = new Array();
+    }
+    Then(task) {
+        if (task instanceof Array) {
+            let taskNum = task.length + 1;
+            this.m_quene.push((complete) => {
+                let taskDone = () => {
+                    taskNum--;
+                    if (taskNum < 1)
+                        complete();
+                };
+                task.forEach(t => { t(taskDone); });
+                taskDone();
+            });
+        }
+        else {
+            this.m_quene.push(task);
+        }
+    }
+    Start(complete) {
+        this.m_onEnd = complete;
+        if (this.statu == TaskStatu.Idle) {
+            this.statu = TaskStatu.Pending;
+            this._Next();
+        }
+    }
+    Stop() {
+        if (this.statu == TaskStatu.Pending) {
+            this.statu = TaskStatu.Stop;
+        }
+    }
+    _Next() {
+        if (this.statu == TaskStatu.Pending) {
+            if (this.m_quene.length > 0) {
+                this.m_quene.shift()(this._Next.bind(this));
+            }
+            else {
+                this.m_onEnd();
+                this.m_onEnd = null;
+                this.statu = TaskStatu.Fulfilled;
+            }
+        }
+    }
+}
+
 var GameStatu;
 (function (GameStatu) {
     GameStatu[GameStatu["Idle"] = 0] = "Idle";
@@ -375,4 +375,4 @@ class SKPGame extends Component {
     }
 }
 
-export { AsyncTask, KitBase, PlayBase, SKPGame, SysBase };
+export { KitBase, PlayBase, SKPGame, SysBase };
