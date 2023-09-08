@@ -1,6 +1,6 @@
 {
   "name": "coolgame-cc",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "coolgame in cocoscreator",
   "main": "dist/coolgame-cc.mjs",
   "types": "dist/coolgame-cc.d.ts",

@@ -297,6 +297,7 @@ class SKPGame extends Component {
         const sysNode = new Node(type.name);
         sysNode.setParent(this._sysRoot);
         const sys = sysNode.addComponent(type);
+        sys.sign(this);
         this._sysList.push(sys);
         return sys;
     }
