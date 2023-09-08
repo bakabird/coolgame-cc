@@ -52,7 +52,7 @@ class KitBase extends Component {
         this.OnLateInit(() => {
             this._status = KitStatus.Running;
             complete();
-        });
+        }, this._game.kit.bind(this._game));
     }
     Dispose() {
         console.log(this.kitName, "Dispose");
@@ -115,7 +115,7 @@ class PlayBase extends Component {
         this.OnLateInit(() => {
             this._status = PlayStatus.Running;
             complete();
-        });
+        }, this._game.play.bind(this._game));
     }
     Dispose() {
         console.log(this.playName, "Dispose");
@@ -164,6 +164,10 @@ class SysBase extends Component {
     get status() {
         return this._status;
     }
+    sign(game) {
+        this._game = game;
+    }
+    ;
     Init(complete) {
         this._status = SysStatus.Initing;
         console.log(this.sysName, "Init");
@@ -177,7 +181,7 @@ class SysBase extends Component {
         this.OnLateInit(() => {
             this._status = SysStatus.Running;
             complete();
-        });
+        }, this._game.sys.bind(this._game));
     }
     Dispose() {
         console.log(this.sysName, "Dispose");

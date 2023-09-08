@@ -1,8 +1,8 @@
 import { Component } from "cc";
 import { SKPGame } from "./SKPGame";
 import { IKit, KitStatus } from "./IKit";
-import { SysBase } from "./SysBase";
 import { _CoolgameCCInteral } from "./Define";
+import { SysBase } from "./SysBase";
 
 export abstract class KitBase extends Component implements IKit {
     private _game: SKPGame;
@@ -27,7 +27,7 @@ export abstract class KitBase extends Component implements IKit {
         this.OnLateInit(() => {
             this._status = KitStatus.Running;
             complete()
-        });
+        }, this._game.kit.bind(this._game));
     }
     Dispose(): void {
         console.log(this.kitName, "Dispose");
@@ -37,6 +37,6 @@ export abstract class KitBase extends Component implements IKit {
         return this._game.sys(type);
     }
     protected abstract OnInit(complete: () => void): void;
-    protected abstract OnLateInit(complete: () => void): void;
+    protected abstract OnLateInit(complete: () => void, kit: <T extends KitBase>(type: _CoolgameCCInteral.types_constructor<T>) => T): void;
     protected abstract OnDispose(): void;
 }

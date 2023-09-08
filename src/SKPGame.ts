@@ -2,8 +2,8 @@ import { _decorator, Component, Node, director } from 'cc';
 import { AsyncTask } from './AsyncTask';
 import { KitBase } from './KitBase';
 import { PlayBase } from './PlayBase';
-import { SysBase } from './SysBase';
 import { _CoolgameCCInteral } from './Define';
+import { SysBase } from './SysBase';
 
 enum GameStatu {
     Idle,

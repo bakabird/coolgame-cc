@@ -1,9 +1,9 @@
 import { Component } from "cc";
 import { SKPGame } from "./SKPGame";
 import { IPlay, PlayStatus } from "./IPlay";
-import { SysBase } from "./SysBase";
 import { KitBase } from "./KitBase";
 import { _CoolgameCCInteral } from "./Define";
+import { SysBase } from "./SysBase";
 
 export abstract class PlayBase extends Component implements IPlay {
     private _game: SKPGame;
@@ -28,7 +28,7 @@ export abstract class PlayBase extends Component implements IPlay {
         this.OnLateInit(() => {
             this._status = PlayStatus.Running;
             complete()
-        });
+        }, this._game.play.bind(this._game));
     }
     Dispose(): void {
         console.log(this.playName, "Dispose");
@@ -41,6 +41,6 @@ export abstract class PlayBase extends Component implements IPlay {
         return this._game.kit(type);
     }
     protected abstract OnInit(complete: () => void): void;
-    protected abstract OnLateInit(complete: () => void): void;
+    protected abstract OnLateInit(complete: () => void, play: <T extends PlayBase>(type: _CoolgameCCInteral.types_constructor<T>) => T): void;
     protected abstract OnDispose(): void;
 }
