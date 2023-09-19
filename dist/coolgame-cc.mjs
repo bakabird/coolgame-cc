@@ -56,6 +56,7 @@ class KitBase extends Component {
     }
     Dispose() {
         console.log(this.kitName, "Dispose");
+        this.OnDispose();
         this._status = KitStatus.Disposed;
     }
     sys(type) {
@@ -119,6 +120,7 @@ class PlayBase extends Component {
     }
     Dispose() {
         console.log(this.playName, "Dispose");
+        this.OnDispose();
         this._status = PlayStatus.Disposed;
     }
     sys(type) {
@@ -185,6 +187,7 @@ class SysBase extends Component {
     }
     Dispose() {
         console.log(this.sysName, "Dispose");
+        this.OnDispose();
         this._status = SysStatus.Disposed;
     }
 }
@@ -264,20 +267,16 @@ class SKPGame extends Component {
         this._kitList = [];
         this._playList = [];
     }
-    static get me() {
-        return SKPGame._me;
-    }
-    ;
     get statu() {
         return this._statu;
     }
     onLoad() {
         console.log(this.gamename, "onLoad");
-        if (SKPGame.me) {
-            console.warn("不允许多个Game同时存在，请先删除现有Game", SKPGame.me.name);
+        if (SKPGame._isInited) {
+            console.warn("不允许多个Game同时存在，请先删除现有Game");
             return;
         }
-        SKPGame._me = this;
+        SKPGame._isInited = true;
         this._sysRoot = new Node("SYS_ROOT");
         this._kitRoot = new Node("KIT_ROOT");
         this._playRoot = new Node("PLAY_ROOT");
@@ -379,5 +378,6 @@ class SKPGame extends Component {
     update(deltaTime) {
     }
 }
+SKPGame._isInited = false;
 
 export { KitBase, PlayBase, SKPGame, SysBase };

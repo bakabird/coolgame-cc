@@ -139,7 +139,6 @@ declare module 'coolgame-cc/SKPGame' {
     type Action = () => void;
     type types_constructor<T> = _CoolgameCCInteral.types_constructor<T>;
     export abstract class SKPGame extends Component {
-            static get me(): SKPGame;
             get statu(): GameStatu;
             protected abstract gamename: String;
             onLoad(): void;
