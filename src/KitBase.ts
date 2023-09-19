@@ -31,6 +31,7 @@ export abstract class KitBase extends Component implements IKit {
     }
     Dispose(): void {
         console.log(this.kitName, "Dispose");
+        this.OnDispose();
         this._status = KitStatus.Disposed;
     }
     protected sys<T extends SysBase>(type: _CoolgameCCInteral.types_constructor<T>) {

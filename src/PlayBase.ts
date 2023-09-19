@@ -32,6 +32,7 @@ export abstract class PlayBase extends Component implements IPlay {
     }
     Dispose(): void {
         console.log(this.playName, "Dispose");
+        this.OnDispose();
         this._status = PlayStatus.Disposed;
     }
     protected sys<T extends SysBase>(type: _CoolgameCCInteral.types_constructor<T>): T | null {

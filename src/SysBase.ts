@@ -33,6 +33,7 @@ export abstract class SysBase extends Component implements ISys {
 
     Dispose(): void {
         console.log(this.sysName, "Dispose");
+        this.OnDispose();
         this._status = SysStatus.Disposed;
     }
     protected abstract OnInit(complete: Action): void;

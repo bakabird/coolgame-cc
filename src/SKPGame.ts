@@ -18,10 +18,7 @@ type Action = () => void;
 type types_constructor<T> = _CoolgameCCInteral.types_constructor<T>;
 
 export abstract class SKPGame extends Component {
-    private static _me: SKPGame;
-    public static get me(): SKPGame {
-        return SKPGame._me;
-    };
+    private static _isInited: boolean = false;
 
     private _statu: GameStatu = GameStatu.Idle;
     public get statu(): GameStatu {
@@ -39,11 +36,11 @@ export abstract class SKPGame extends Component {
 
     public onLoad() {
         console.log(this.gamename, "onLoad");
-        if (SKPGame.me) {
-            console.warn("不允许多个Game同时存在，请先删除现有Game", SKPGame.me.name);
+        if (SKPGame._isInited) {
+            console.warn("不允许多个Game同时存在，请先删除现有Game");
             return
         }
-        SKPGame._me = this;
+        SKPGame._isInited = true;
 
         this._sysRoot = new Node("SYS_ROOT");
         this._kitRoot = new Node("KIT_ROOT");
