@@ -70,6 +70,7 @@ export abstract class SKPGame extends Component {
             this._sysList.push(sys);
             return sys;
         }
+        existSys.node.name = type.name;
         existSys.node.setParent(this._sysRoot);
         existSys.sign(this);
         this._sysList.push(existSys);
@@ -90,6 +91,7 @@ export abstract class SKPGame extends Component {
             this._kitList.push(kit);
             return kit;
         }
+        existKit.node.name = type.name;
         existKit.node.setParent(this._kitRoot);
         existKit.sign(this);
         this._kitList.push(existKit);
@@ -105,6 +107,7 @@ export abstract class SKPGame extends Component {
         if (!existPlay) {
             return this._internal_newPlay(type);
         }
+        existPlay.node.name = type.name;
         existPlay.node.setParent(this._playRoot);
         existPlay.sign(this);
         this._playList.push(existPlay);
