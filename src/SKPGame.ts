@@ -61,12 +61,19 @@ export abstract class SKPGame extends Component {
     }
 
     private _addSys<T extends SysBase>(type: types_constructor<T>): T {
-        const sysNode = new Node(type.name);
-        sysNode.setParent(this._sysRoot);
-        const sys = sysNode.addComponent(type);
-        sys.sign(this);
-        this._sysList.push(sys);
-        return sys;
+        const existSys = this.getComponentInChildren<T>(type);
+        if (!existSys) {
+            const sysNode = new Node(type.name);
+            sysNode.setParent(this._sysRoot);
+            const sys = sysNode.addComponent(type);
+            sys.sign(this);
+            this._sysList.push(sys);
+            return sys;
+        }
+        existSys.node.setParent(this._sysRoot);
+        existSys.sign(this);
+        this._sysList.push(existSys);
+        return existSys;
     }
 
     public kit<T extends KitBase>(type: types_constructor<T>): T | null {
@@ -74,12 +81,19 @@ export abstract class SKPGame extends Component {
     }
 
     private _addKit<T extends KitBase>(type: types_constructor<T>): T {
-        const kitNode = new Node(type.name);
-        kitNode.setParent(this._kitRoot);
-        const kit = kitNode.addComponent(type);
-        kit.sign(this)
-        this._kitList.push(kit);
-        return kit;
+        const existKit = this.getComponentInChildren<T>(type);
+        if (!existKit) {
+            const kitNode = new Node(type.name);
+            kitNode.setParent(this._kitRoot);
+            const kit = kitNode.addComponent(type);
+            kit.sign(this);
+            this._kitList.push(kit);
+            return kit;
+        }
+        existKit.node.setParent(this._kitRoot);
+        existKit.sign(this);
+        this._kitList.push(existKit);
+        return existKit;
     }
 
     public play<T extends PlayBase>(type: types_constructor<T>): T | null {
@@ -87,6 +101,17 @@ export abstract class SKPGame extends Component {
     }
 
     private _addPlay<T extends PlayBase>(type: types_constructor<T>): T {
+        const existPlay = this.getComponentInChildren<T>(type);
+        if (!existPlay) {
+            return this._internal_newPlay(type);
+        }
+        existPlay.node.setParent(this._playRoot);
+        existPlay.sign(this);
+        this._playList.push(existPlay);
+        return existPlay;
+    }
+
+    private _internal_newPlay<T extends PlayBase>(type: types_constructor<T>): T {
         const playNode = new Node(type.name);
         playNode.setParent(this._playRoot);
         const play = playNode.addComponent(type);
@@ -96,7 +121,7 @@ export abstract class SKPGame extends Component {
     }
 
     public addPlay<T extends PlayBase>(type: types_constructor<T>, onInited: Action, onLateInited: Action): T {
-        const play = this._addPlay(type);
+        const play = this._internal_newPlay(type);
         play.Init(() => {
             onInited?.();
             play.LateInit(() => {

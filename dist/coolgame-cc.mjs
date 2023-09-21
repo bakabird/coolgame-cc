@@ -293,28 +293,52 @@ class SKPGame extends Component {
         return this._sysRoot.getComponentInChildren(type);
     }
     _addSys(type) {
-        const sysNode = new Node(type.name);
-        sysNode.setParent(this._sysRoot);
-        const sys = sysNode.addComponent(type);
-        sys.sign(this);
-        this._sysList.push(sys);
-        return sys;
+        const existSys = this.getComponentInChildren(type);
+        if (!existSys) {
+            const sysNode = new Node(type.name);
+            sysNode.setParent(this._sysRoot);
+            const sys = sysNode.addComponent(type);
+            sys.sign(this);
+            this._sysList.push(sys);
+            return sys;
+        }
+        existSys.node.setParent(this._sysRoot);
+        existSys.sign(this);
+        this._sysList.push(existSys);
+        return existSys;
     }
     kit(type) {
         return this._kitRoot.getComponentInChildren(type);
     }
     _addKit(type) {
-        const kitNode = new Node(type.name);
-        kitNode.setParent(this._kitRoot);
-        const kit = kitNode.addComponent(type);
-        kit.sign(this);
-        this._kitList.push(kit);
-        return kit;
+        const existKit = this.getComponentInChildren(type);
+        if (!existKit) {
+            const kitNode = new Node(type.name);
+            kitNode.setParent(this._kitRoot);
+            const kit = kitNode.addComponent(type);
+            kit.sign(this);
+            this._kitList.push(kit);
+            return kit;
+        }
+        existKit.node.setParent(this._kitRoot);
+        existKit.sign(this);
+        this._kitList.push(existKit);
+        return existKit;
     }
     play(type) {
         return this._playRoot.getComponentInChildren(type);
     }
     _addPlay(type) {
+        const existPlay = this.getComponentInChildren(type);
+        if (!existPlay) {
+            return this._internal_newPlay(type);
+        }
+        existPlay.node.setParent(this._playRoot);
+        existPlay.sign(this);
+        this._playList.push(existPlay);
+        return existPlay;
+    }
+    _internal_newPlay(type) {
         const playNode = new Node(type.name);
         playNode.setParent(this._playRoot);
         const play = playNode.addComponent(type);
@@ -323,7 +347,7 @@ class SKPGame extends Component {
         return play;
     }
     addPlay(type, onInited, onLateInited) {
-        const play = this._addPlay(type);
+        const play = this._internal_newPlay(type);
         play.Init(() => {
             onInited === null || onInited === void 0 ? void 0 : onInited();
             play.LateInit(() => {
